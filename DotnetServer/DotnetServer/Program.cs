@@ -6,21 +6,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using Microsoft.AspNetCore;
+using DotnetServer.Services;
 
 namespace DotnetServer
 {
     public class Program
     {
+    
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+       
+            var host = CreateWebHostBuilder(args).Build();
+            host.Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+        public static Microsoft.AspNetCore.Hosting.IWebHostBuilder
+        CreateWebHostBuilder(string[] args) =>
+        WebHost.CreateDefaultBuilder(args).
+            UseStartup<Startup>();
+ 
+}
 }
