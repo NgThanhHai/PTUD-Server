@@ -38,10 +38,10 @@ public class CustomerController {
 		try {
 			List<Customer> listCustomer = new ArrayList<Customer>();
 			repo.findAll().forEach(listCustomer::add);
-//			if(listCustomer.isEmpty())
-//			{
-//				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//			}
+			if(listCustomer.isEmpty())
+			{
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
 			
 			return new ResponseEntity<>(listCustomer, HttpStatus.OK);
 			}
