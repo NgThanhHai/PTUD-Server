@@ -15,35 +15,10 @@ import com.mongodb.client.MongoDatabase;
 import ServerJavaTest.repository.CustomerRepository;
 
 @SpringBootApplication
-public class ServerJavaTestApplication  implements CommandLineRunner {
+public class ServerJavaTestApplication  {
 
-	@Autowired
-	CustomerRepository repository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ServerJavaTestApplication.class, args);
-		
-//		ConnectionString connectionString = new ConnectionString("mongodb+srv://ptud:ptud@cluster0.7gw7q.mongodb.net/test?retryWrites=true&w=majority");
-//		MongoClientSettings settings = MongoClientSettings.builder()
-//        .applyConnectionString(connectionString)
-//        .build();
-//		MongoClient mongoClient = MongoClients.create(settings);
-//		MongoDatabase database = mongoClient.getDatabase("PTUD");
-//		
-//		try {
-//			System.out.println(database.listCollectionNames());
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
-
-	@Override
-	public void run(String... args) throws Exception {
-		listAll();
-	}
-	public void listAll() {
-		System.out.println("Listing data");
-		repository.findAll().forEach(u -> System.out.println(u));
-	}	
 }
