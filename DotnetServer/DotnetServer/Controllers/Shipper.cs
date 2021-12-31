@@ -1,12 +1,16 @@
 using DotnetServer.Models;
 using DotnetServer.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+
 
 namespace DotnetServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyCorsPolicy")]
     public class ShipperController : ControllerBase
     {
         private readonly ShipperService _shipperService;

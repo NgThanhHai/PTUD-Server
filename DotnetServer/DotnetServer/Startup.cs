@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 
 namespace DotnetServer
 {
@@ -30,6 +31,13 @@ namespace DotnetServer
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddCors(options =>
+            {
+            options.AddPolicy("CorsPolicy",
+                builder => builder.WithOrigins("http://localhost:8080").AllowCredentials()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -41,9 +49,9 @@ namespace DotnetServer
             services.AddSingleton<IDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
             services.AddSingleton<ShipperService>();
-
-            services.AddControllers();
-        }
+            services.AddSingleton<TroubleService>();
+            services.AddMvc();
+         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -57,7 +65,9 @@ namespace DotnetServer
 
             app.UseHttpsRedirection();
 
+
             app.UseRouting();
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 
