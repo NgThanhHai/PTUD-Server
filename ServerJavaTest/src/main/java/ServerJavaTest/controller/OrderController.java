@@ -46,20 +46,20 @@ public class OrderController {
 			{
 				return new ResponseEntity<>(HttpStatus.CONFLICT);
 			}else {
-				if(order.getCustomer_id() == confirmerId)
+				if(order.getCustomer_id().equals(confirmerId))
 				{
 					order.setCert_cus(true);
 					order.setStatus(order.getStatus() +1 );
 					repo.save(order);
 					return new ResponseEntity<>(null, HttpStatus.OK);
 				}
-				if(order.getShop_id() == confirmerId) {
+				if(order.getShop_id().equals(confirmerId)) {
 					order.setCert_shop(true);
 					order.setStatus(order.getStatus() +1 );
 					repo.save(order);
 					return new ResponseEntity<>(null, HttpStatus.OK);
 				}
-				return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(null, HttpStatus.CONFLICT);
 			} 
 			
 		}else {
