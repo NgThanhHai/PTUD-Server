@@ -27,14 +27,19 @@ namespace DotnetServer.Services
              _shipperCollection.Find(x => x._id == id).FirstOrDefault();
 
         public Shipper Create(Shipper newShipper)
-            {   _shipperCollection.InsertOne(newShipper);
-                return newShipper;
-            }
+        {
+            _shipperCollection.InsertOne(newShipper);
+            return newShipper;
+        }
 
-            public void Update(string id, Shipper updatedShipper) =>
-                 _shipperCollection.ReplaceOne(x => x._id == id, updatedShipper);
+        public Shipper Update(string id, Shipper updatedShipper)
+        {
+            _shipperCollection.ReplaceOne(x => x._id == id, updatedShipper);
+            return updatedShipper;
+        }
 
-            public void Remove(string id) =>
-                 _shipperCollection.DeleteOne(x => x._id == id);
+
+        public void Remove(string id) =>
+             _shipperCollection.DeleteOne(x => x._id == id);
     }
 }
