@@ -53,7 +53,7 @@ namespace DotnetServer.Controllers
 
             _shipperService.Update(id, newShipper);
 
-            return NoContent();
+            return CreatedAtRoute("GetShipper", new { id = newShipper._id.ToString() }, newShipper);
         }
 
         [HttpDelete("{id:length(24)}")]
