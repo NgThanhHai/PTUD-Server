@@ -1,10 +1,15 @@
 package ServerJavaTest.controller;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.CollectionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,26 +37,33 @@ public class ShipperController {
 	}
 	
 	
-	@GetMapping("/shipper/{shipperId}/salary")
-	public ResponseEntity<List<Order>> getSalary(@PathVariable("shipperId") String shipperId)
+	@GetMapping("/shipper/{shipperId}/salary/month/{month}/year/{year}")
+	public ResponseEntity<Integer> getSalary(@PathVariable("shipperId") String shipperId, @PathVariable("month") Integer month, @PathVariable("year") Integer year)
 	{
 		Optional<Shipper> shipper = repo.findById(shipperId);
 		if(!shipper.isPresent())
 		{
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 		}else {
 			List<Order> listOrder = new ArrayList<Order>();
 			orderRepo.findAll().forEach(listOrder::add);
 			
-			listOrder.stream()
-				      .filter(order -> order.getShipper_id() == shipperId);
-			
+
+			CollectionUtils.filter(listOrder, order -> Objects.equals(((Order) order).getShipper_id(),(shipperId)));
+
+			CollectionUtils.filter(listOrder, order -> Objects.equals( ((Order) order).getCreated_at().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getMonthValue() , month ));
+			CollectionUtils.filter(listOrder, order -> Objects.equals( ((Order) order).getCreated_at().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear() , year ));
+
 			if(listOrder.isEmpty())
 			{
-
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}else {
-				return new ResponseEntity<>(listOrder, HttpStatus.OK);
+				Integer salary = 0;
+				for(int i = 0; i < listOrder.size(); i++) {
+					salary += listOrder.get(i).getShipper_fee();
+				}
+				
+				return new ResponseEntity<>(salary, HttpStatus.OK);
 			}
 		}
 	}
