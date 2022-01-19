@@ -10,10 +10,11 @@ namespace DotnetServer.Controllers
     public class ShipperController : ControllerBase
     {
         private readonly ShipperService _shipperService;
-
-        public ShipperController(ShipperService shipperService)
+        private readonly UserService _userService;
+        public ShipperController(ShipperService shipperService, UserService userService)
         {
             _shipperService = shipperService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -34,10 +35,15 @@ namespace DotnetServer.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Shipper> Create(Shipper shipper)
+        public ActionResult<Shipper> Create(string Username, string Password, string Type, Shipper shipper)
         {
             _shipperService.Create(shipper);
-
+            User newUser = new();
+            newUser.Username = Username;
+            newUser.Password = Password;
+            newUser.Type = Type;
+            newUser.UserId = shipper._id.ToString();
+            _userService.Create(newUser);
             return CreatedAtRoute("GetShipper", new { id = shipper._id.ToString() }, shipper);
         }
 

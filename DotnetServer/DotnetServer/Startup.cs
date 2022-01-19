@@ -53,7 +53,7 @@ namespace DotnetServer
             services.AddSingleton<OrderService>();
             services.AddSingleton<ShopService>();
             services.AddSingleton<CustomerService>();
-
+            services.AddSingleton<UserService>();
             services.AddControllers();
 
         }
