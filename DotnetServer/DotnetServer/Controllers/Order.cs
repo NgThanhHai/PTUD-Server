@@ -23,16 +23,16 @@ namespace DotnetServer.Controllers
 
         [ActionName("GetDetail")]
         [HttpGet("{id:length(24)}", Name = "GetOrder")]
-        public ActionResult<Order> Get(string id)
+        public ActionResult<OrderResponse> Get(string id)
         {
-            var shipper = _orderService.Get(id);
+            var order = _orderService.Get(id);
 
-            if (shipper == null)
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return shipper;
+            return order;
         }
 
         [ActionName("Create")]
@@ -60,14 +60,14 @@ namespace DotnetServer.Controllers
             return CreatedAtRoute("GetOrder", new { id = newOrder._id.ToString() }, newOrder);
         }
         [ActionName("UpdateStatus")]
-        [HttpPut("{id:length(24)}")]
+        [HttpPut]
         public IActionResult UpdateStatus(string id, int? status)
         {
             if (status == null || status < -3 || status > 3)
             {
                 return NotFound();
             }
-            var order = _orderService.Get(id);
+            var order = _orderService.GetOrigin(id);
 
             if (order == null)
             {

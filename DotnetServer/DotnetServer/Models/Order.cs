@@ -1,6 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
+using System.Collections.Generic;
 
 namespace DotnetServer.Models
 {
@@ -23,8 +24,9 @@ namespace DotnetServer.Models
         public DateTime created_at { get; set; }
         [BsonDateTimeOptions]
         public DateTime updated_at { get; set; }
+        public List<OrderDetail> order_detail  { get; set; }
 
-    }
+}
 
     public class orderBodyRequest
     {
@@ -59,5 +61,6 @@ namespace DotnetServer.Models
         public DateTime created_at { get; set; }
         [BsonDateTimeOptions]
         public DateTime updated_at { get; set; }
+        public List<OrderDetail> order_detail { get; set; }
     }
 }
