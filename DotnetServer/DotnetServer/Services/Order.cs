@@ -26,18 +26,18 @@ namespace DotnetServer.Services
 
         public List<OrderResponse> Get(orderBodyRequest request)
         {
-           var result = new List<OrderResponse>();
-           var dummy = _orderCollection.Find(x =>
+            var result = new List<OrderResponse>();
+            var dummy = _orderCollection.Find(x =>
 
-            (request.shop_id == null || x.shop_id == request.shop_id)
-            && (request.shipper_id == null || x.shipper_id == request.shipper_id)
-            && (request.status == null || x.status == request.status)
-            && ((request.from == null && request.to == null)
-                   || (request.from == null && request.to != null && x.created_at <= request.to)
-                   || (request.from != null && request.to == null && x.created_at >= request.from)
-                   || (request.from != null && request.to != null && request.from >= x.created_at && x.created_at <= request.to)
-            )
-            ).ToList().OrderByDescending(x => x.created_at).ToList();
+             (request.shop_id == null || x.shop_id == request.shop_id)
+             && (request.shipper_id == null || x.shipper_id == request.shipper_id)
+             && (request.status == null || x.status == request.status)
+             && ((request.from == null && request.to == null)
+                    || (request.from == null && request.to != null && x.created_at <= request.to)
+                    || (request.from != null && request.to == null && x.created_at >= request.from)
+                    || (request.from != null && request.to != null && request.from >= x.created_at && x.created_at <= request.to)
+             )
+             ).ToList().OrderByDescending(x => x.created_at).ToList();
 
             for (int i = 0; i < dummy.Count; i++)
             {
@@ -64,18 +64,46 @@ namespace DotnetServer.Services
                 resultDummy.ship_info = curValue.ship_info;
                 resultDummy.shop_name = shop.name;
                 resultDummy.cus_name = cus.name;
+                resultDummy.order_detail = curValue.order_detail;
                 result.Add(resultDummy);
             }
 
             return result;
         }
-            
 
 
 
-        public Order Get(string id) =>
-             _orderCollection.Find(x => x._id == id).FirstOrDefault();
 
+        public OrderResponse Get(string id) {
+            var curValue = _orderCollection.Find(x => x._id == id).FirstOrDefault();
+
+            var cus = _customerService.Get(curValue.customer_id);
+            var shop = _shopService.Get(curValue.shop_id);
+            var resultDummy = new OrderResponse();
+
+            if (cus == null || shop == null)
+            {
+                return resultDummy;
+            }
+
+            resultDummy._id = curValue._id;
+            resultDummy.shop_id = curValue.shop_id;
+            resultDummy.customer_id = curValue.customer_id;
+            resultDummy.shipper_id = curValue.shipper_id;
+            resultDummy.status = curValue.status;
+            resultDummy.total = curValue.total;
+            resultDummy.shipper_fee = curValue.shipper_fee;
+            resultDummy.cert_shop = curValue.cert_shop;
+            resultDummy.cert_cus = curValue.cert_cus;
+            resultDummy.created_at = curValue.created_at;
+            resultDummy.updated_at = curValue.updated_at;
+            resultDummy.ship_info = curValue.ship_info;
+            resultDummy.shop_name = shop.name;
+            resultDummy.cus_name = cus.name;
+            resultDummy.order_detail = curValue.order_detail;
+            return resultDummy;
+        }
+        public Order GetOrigin(string id) => _orderCollection.Find(x => x._id == id).FirstOrDefault();
         public Order Create(Order newOrder)
         {
             var dummy = newOrder;
