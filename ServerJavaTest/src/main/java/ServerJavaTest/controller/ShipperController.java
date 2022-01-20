@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.CollectionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ import ServerJavaTest.repository.ShipperRepository;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:8080")
 public class ShipperController {
 	@Autowired
 	public ShipperRepository repo;
@@ -38,6 +40,7 @@ public class ShipperController {
 	
 	
 	@GetMapping("/shipper/{shipperId}/salary/month/{month}/year/{year}")
+	@CrossOrigin(origins = "http://localhost:8080")
 	public ResponseEntity<Integer> getSalary(@PathVariable("shipperId") String shipperId, @PathVariable("month") Integer month, @PathVariable("year") Integer year)
 	{
 		Optional<Shipper> shipper = repo.findById(shipperId);
