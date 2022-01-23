@@ -35,7 +35,22 @@ public class OrderController {
 		
 	}
 	
-	
+	@PostMapping("order/{orderId}/status/{status}")
+	@CrossOrigin(origins = "http://localhost:8080")
+	public ResponseEntity<HttpStatus> changeStatusOrder(@PathVariable("orderId") String orderId, @PathVariable("status") int status)
+	{
+		Optional<Order> pendingOrder = repo.findById(orderId);
+		if(pendingOrder.isPresent())
+		{
+			Order order = pendingOrder.get();
+			order.setStatus(status);
+			repo.save(order);
+			return new ResponseEntity<>(null, HttpStatus.OK);
+			
+		}else {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+	}
 	
 	@PostMapping("order/{orderId}/confirm/{confirmerId}")
 	@CrossOrigin(origins = "http://localhost:8080")
