@@ -5,7 +5,11 @@
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:35575",
+<<<<<<< Updated upstream
       "sslPort": 44353
+=======
+      "sslPort": 5001
+>>>>>>> Stashed changes
     }
   },
   "profiles": {

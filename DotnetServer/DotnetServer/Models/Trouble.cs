@@ -20,5 +20,10 @@ namespace DotnetServer.Models
         public string description { get; set; }
 
         public int status { get; set; }
+<<<<<<< Updated upstream
+=======
+
+        public string picture { get; set; }
+>>>>>>> Stashed changes
     }
 }

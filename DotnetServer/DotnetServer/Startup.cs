@@ -49,9 +49,21 @@ namespace DotnetServer
             services.AddSingleton<IDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
             services.AddSingleton<ShipperService>();
+<<<<<<< Updated upstream
             services.AddSingleton<TroubleService>();
             services.AddMvc();
          }
+=======
+            services.AddSingleton<OrderService>();
+            services.AddSingleton<ShopService>();
+            services.AddSingleton<CustomerService>();
+            services.AddSingleton<UserService>();
+            services.AddSingleton<TroubleService>();
+            services.AddSingleton<ExtenInforService>();
+            services.AddControllers();
+
+        }
+>>>>>>> Stashed changes
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
