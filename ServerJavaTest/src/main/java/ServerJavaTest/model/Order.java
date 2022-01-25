@@ -1,7 +1,10 @@
 package ServerJavaTest.model;
 
+import java.lang.reflect.Array;
 import java.security.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -32,13 +35,10 @@ public class Order {
 	public String shipper_id;
 	@Field
 	public int shipper_fee;
-	
-	public int getShipper_fee() {
-		return shipper_fee;
-	}
-	public void setShipper_fee(int shipper_fee) {
-		this.shipper_fee = shipper_fee;
-	}
+	@Field
+	public String ship_info;
+	@Field
+	public List<OrderDetail> order_detail;
 	public String get_id() {
 		return _id;
 	}
@@ -99,9 +99,42 @@ public class Order {
 	public void setShipper_id(String shipper_id) {
 		this.shipper_id = shipper_id;
 	}
-	
-	public Order()
-	{
-		super();
+	public int getShipper_fee() {
+		return shipper_fee;
 	}
+	public void setShipper_fee(int shipper_fee) {
+		this.shipper_fee = shipper_fee;
+	}
+	public String getShip_info() {
+		return ship_info;
+	}
+	public void setShip_info(String ship_info) {
+		this.ship_info = ship_info;
+	}
+	public List<OrderDetail> getOrder_detail() {
+		return order_detail;
+	}
+	public void setOrder_detail(List<OrderDetail> order_detail) {
+		this.order_detail = order_detail;
+	}
+	public Order(String _id, int total, int status, String shop_id, String customer_id, Date created_at,
+			Date updated_at, Boolean cert_shop, Boolean cert_cus, String shipper_id, int shipper_fee, String ship_info,
+			List<OrderDetail> order_detail) {
+		super();
+		this._id = _id;
+		this.total = total;
+		this.status = status;
+		this.shop_id = shop_id;
+		this.customer_id = customer_id;
+		this.created_at = created_at;
+		this.updated_at = updated_at;
+		this.cert_shop = cert_shop;
+		this.cert_cus = cert_cus;
+		this.shipper_id = shipper_id;
+		this.shipper_fee = shipper_fee;
+		this.ship_info = ship_info;
+		this.order_detail = order_detail;
+	}
+	
+	
 }

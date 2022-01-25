@@ -1,59 +1,44 @@
 package ServerJavaTest.model;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-
-@Document(collection = "OrderDetail")
 public class OrderDetail {
-	@Id
-	public String _id;
-	@Field
-	public String order_id;
-	@Field
-	public String product;
-	@Field
-	public int quantity;
-	@Field
-	public int price;
-	
-	public OrderDetail(String _id, String order_id, String product, int quantity, int price) {
-		super();
-		this._id = _id;
-		this.order_id = order_id;
-		this.product = product;
-		this.quantity = quantity;
-		this.price = price;
+    private String ProductID;
+    private String Name;
+    private int Price;
+    private int Quantity;
+    private String ImagePath;
+    
+    
+    public String getproduct_id() {
+		return ProductID;
+	}
+	public void setproduct_id(String product_id) {
+		this.ProductID = product_id;
 	}
 	
-	public String get_id() {
-		return _id;
+	public String getproduct_name() {
+		return Name;
 	}
-	public void set_id(String _id) {
-		this._id = _id;
+	public void setproduct_name(String product_name) {
+		this.Name = product_name;
 	}
-	public String getOrder_id() {
-		return order_id;
+	
+	public int getproduct_price() {
+		return Price;
 	}
-	public void setOrder_id(String order_id) {
-		this.order_id = order_id;
+	public void setproduct_price(int product_price) {
+		this.Price = product_price;
 	}
-	public String getProduct() {
-		return product;
+
+	public int getproduct_quantity() {
+		return Quantity;
 	}
-	public void setProduct(String product) {
-		this.product = product;
+	public void setproduct_quantity(int product_quantity) {
+		this.Quantity = product_quantity;
 	}
-	public int getQuantity() {
-		return quantity;
+	
+	public String getimage_path() {
+		return ImagePath;
 	}
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-	public int getPrice() {
-		return price;
-	}
-	public void setPrice(int price) {
-		this.price = price;
+	public void setimage_path(String image_path) {
+		this.ImagePath = image_path;
 	}
 }
