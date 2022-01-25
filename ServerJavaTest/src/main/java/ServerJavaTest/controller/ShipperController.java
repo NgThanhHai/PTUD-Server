@@ -32,7 +32,7 @@ import ServerJavaTest.repository.ShipperRepository;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = {"http://localhost:8080", "https://ptud.vercel.app/"}, allowedHeaders = "*")
 public class ShipperController {
 	@Autowired
 	public ShipperRepository repo;
@@ -46,7 +46,7 @@ public class ShipperController {
 	
 	
 	@GetMapping("/shipper/{shipperId}/salary/month/{month}/year/{year}")
-	@CrossOrigin(origins = "http://localhost:8080")
+	@CrossOrigin(origins = {"http://localhost:8080", "https://ptud.vercel.app/"}, allowedHeaders = "*")
 	public ResponseEntity<JsonObject> getSalary(@PathVariable("shipperId") String shipperId, @PathVariable("month") Integer month, @PathVariable("year") Integer year)
 	{
 		Optional<Shipper> shipper = repo.findById(shipperId);

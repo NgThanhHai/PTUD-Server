@@ -20,7 +20,7 @@ import ServerJavaTest.repository.OrderRepository;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
+@CrossOrigin(origins = {"http://localhost:8080", "https://ptud.vercel.app/"}, allowedHeaders = "*")
 public class OrderController {
 
 	@Autowired
@@ -32,7 +32,7 @@ public class OrderController {
 	}
 	
 	@PostMapping("order/{orderId}/status/{status}")
-	@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
+	@CrossOrigin(origins = {"http://localhost:8080", "https://ptud.vercel.app/"}, allowedHeaders = "*")
 	public ResponseEntity<HttpStatus> changeStatusOrder(@PathVariable("orderId") String orderId, @PathVariable("status") int status)
 	{
 		Optional<Order> pendingOrder = repo.findById(orderId);
@@ -49,7 +49,7 @@ public class OrderController {
 	}
 	
 	@PostMapping("order/{orderId}/confirm/{confirmerId}")
-	@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
+	@CrossOrigin(origins = {"http://localhost:8080", "https://ptud.vercel.app/"}, allowedHeaders = "*")
 	public ResponseEntity<HttpStatus> confirmOrder(@PathVariable("orderId") String orderId, @PathVariable("confirmerId") String confirmerId)
 	{
 		Optional<Order> pendingOrder = repo.findById(orderId);
