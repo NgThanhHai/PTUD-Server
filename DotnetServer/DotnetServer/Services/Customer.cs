@@ -28,7 +28,12 @@ namespace DotnetServer.Services
             return dummy;
         }
             
+        public Customer GetCusFromPhone(string phone)
+        {
+            var dummy = _customerCollection.Find(x => x.phone == phone);
 
+            return dummy.FirstOrDefault();
+        }
 
 
         public Customer Get(string id) =>

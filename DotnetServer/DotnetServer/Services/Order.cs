@@ -1,8 +1,11 @@
-using DotnetServer.Models;
+﻿using DotnetServer.Models;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace DotnetServer.Services
 {
@@ -107,7 +110,7 @@ namespace DotnetServer.Services
         public Order Create(Order newOrder)
         {
             var dummy = newOrder;
-            dummy.created_at = DateTime.Now;
+             dummy.created_at = DateTime.Now;
             dummy.updated_at = DateTime.Now;
             _orderCollection.InsertOne(dummy);
             return newOrder;
@@ -119,8 +122,104 @@ namespace DotnetServer.Services
             return updatedOrder;
         }
 
-
+        
         public void Remove(string id) =>
              _orderCollection.DeleteOne(x => x._id == id);
+
+        public async Task<string> SendMail(string _from, Customer _to, string _subject, string _body, SmtpClient client)
+        {
+            // Tạo nội dung Email
+            MailMessage message = new MailMessage(
+                from: _from,
+                to: _to.identify,
+                subject: _subject,
+                body: _body
+            );
+            message.BodyEncoding = System.Text.Encoding.UTF8;
+            message.SubjectEncoding = System.Text.Encoding.UTF8;
+            message.IsBodyHtml = true;
+            message.ReplyToList.Add(new MailAddress(_from));
+            message.Sender = new MailAddress(_from);
+
+
+            try
+            {
+                await client.SendMailAsync(message);
+                var cus = _customerService.Get(_to._id);
+                if (cus == null) {
+                    return null;
+                }
+
+                var newCus = cus;
+                newCus.otp = _body;
+                _customerService.Update(_to._id, cus);
+                return _to._id;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<string> SendMailGoogleSmtp(string phone)
+        {
+
+            var body = Generate_otp(6);
+            var username = "doantotnghiep.334.349.366@gmail.com";
+            var pass = "D2H334349366";
+            var _to = _customerService.GetCusFromPhone(phone);
+            if (_to == null)
+            {
+                return null;
+            }
+            // Tạo SmtpClient kết nối đến smtp.gmail.com
+            using (SmtpClient client = new SmtpClient("smtp.gmail.com"))
+            {
+                client.Port = 587;
+                client.Credentials = new NetworkCredential(username, pass);
+                client.EnableSsl = true;
+                return await SendMail(username, _to, "Send OTP PTUD", body, client);
+            }
+
+        }
+
+        public string Generate_otp(int size)
+        {
+            char[] charArr = "0123456789".ToCharArray();
+            string strrandom = string.Empty;
+            Random objran = new Random();
+            for (int i = 0; i < size; i++)
+            {
+                //It will not allow Repetation of Characters
+                int pos = objran.Next(1, charArr.Length);
+                if (!strrandom.Contains(charArr.GetValue(pos).ToString())) strrandom += charArr.GetValue(pos);
+                else i--;
+            }
+            return strrandom;
+        }
+
+        public bool VerifyOTP(string id, string otp)
+        {
+            var cus = _customerService.Get(id);
+            if (cus == null)
+            {
+                return false;
+            }
+            
+            if (cus.otp != otp)
+            {
+                return false;
+            }
+
+            var newCus = cus;
+            newCus.otp = "";
+            _customerService.Update(id, newCus);
+
+            return true;
+
+
+        }
     }
+
 }
+   
