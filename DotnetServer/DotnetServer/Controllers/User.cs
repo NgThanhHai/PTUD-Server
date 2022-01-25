@@ -37,14 +37,14 @@ namespace DotnetServer.Controllers
         }
         [ActionName("Login")]
         [HttpPost]
-        public ActionResult<string> LogIn(string Username, string Password)
+        public ActionResult<string> LogIn(User userReq)
         {
-            var user = _userService.Get(Username, Password);
+            var user = _userService.Get(userReq.Username, userReq.Password);
             if (user == null)
             {
                 return NotFound();
             }
-            return user._id.ToString();
+            return user.UserId.ToString();
         }
 
         [ActionName("Update")]

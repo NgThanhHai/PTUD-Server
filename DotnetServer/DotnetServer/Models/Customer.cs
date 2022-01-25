@@ -17,6 +17,7 @@ namespace DotnetServer.Models
         public string address { get; set; }
         public string identify { get; set; }
         public string sex { get; set; }
+        public string? otp { get; set; }
 
     }
 

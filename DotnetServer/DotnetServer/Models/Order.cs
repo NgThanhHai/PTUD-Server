@@ -25,8 +25,10 @@ namespace DotnetServer.Models
         [BsonDateTimeOptions]
         public DateTime updated_at { get; set; }
         public List<OrderDetail> order_detail  { get; set; }
+        public string? _class { get; set; }
 
-}
+
+    }
 
     public class orderBodyRequest
     {
@@ -63,4 +65,16 @@ namespace DotnetServer.Models
         public DateTime updated_at { get; set; }
         public List<OrderDetail> order_detail { get; set; }
     }
+
+    public class GetOTPRequest
+    {
+        public string phone { get; set; }
+    }
+
+    public class VerifyOTPRequest { 
+        public string id { get; set; }
+        public string otp { get; set; }
+    }
 }
+
+

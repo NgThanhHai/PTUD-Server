@@ -20,7 +20,22 @@ namespace DotnetServer.Controllers
         [HttpPost]
         public ActionResult<List<OrderResponse>> Get(orderBodyRequest request) =>
             _orderService.Get(request);
+        [ActionName("GetOTP")]
+        [HttpPost]
+        public ActionResult<string> GetOTP(GetOTPRequest request)
+        {
+            var sendFail = _orderService.SendMailGoogleSmtp(request.phone);
+            return sendFail.Result;
+          
+        } 
+        [ActionName("VerifyOTP")]
+        [HttpPost]
+        public ActionResult<bool> VerifyOTP(VerifyOTPRequest request)
+        {
+            return _orderService.VerifyOTP(request.id, request.otp);
 
+
+        }
         [ActionName("GetDetail")]
         [HttpGet("{id:length(24)}", Name = "GetOrder")]
         public ActionResult<OrderResponse> Get(string id)
@@ -96,5 +111,6 @@ namespace DotnetServer.Controllers
 
             return NoContent();
         }
+        
     }
 }
