@@ -165,8 +165,8 @@ namespace DotnetServer.Services
         {
 
             var body = Generate_otp(6);
-            var username = "doantotnghiep.334.349.366@gmail.com";
-            var pass = "D2H334349366";
+            var username = "trungnemn@gmail.com";
+            var pass = "trung30032000";
             var _to = _customerService.GetCusFromPhone(phone);
             if (_to == null)
             {
