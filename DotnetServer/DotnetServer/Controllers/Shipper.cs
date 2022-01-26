@@ -35,16 +35,16 @@ namespace DotnetServer.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Shipper> Create(string Username, string Password, string Type, Shipper shipper)
+        public ActionResult<Shipper> Create(CreateShipperRequest request)
         {
-            _shipperService.Create(shipper);
+           var newShipper = _shipperService.Create(request.shipper);
             User newUser = new();
-            newUser.Username = Username;
-            newUser.Password = Password;
-            newUser.Type = Type;
-            newUser.UserId = shipper._id.ToString();
+            newUser.Username = request.Username;
+            newUser.Password = request.Password;
+            newUser.Type = request.Type;
+            newUser.UserId = newShipper._id.ToString();
             _userService.Create(newUser);
-            return CreatedAtRoute("GetShipper", new { id = shipper._id.ToString() }, shipper);
+            return CreatedAtRoute("GetShipper", new { id = newShipper._id.ToString() }, newShipper);
         }
 
         [HttpPut("{id:length(24)}")]
